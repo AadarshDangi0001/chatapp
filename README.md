@@ -27,9 +27,9 @@ A sleek and responsive real-time chat application with **Group Chat**, **Direct 
 
 ### 1. Clone the repo
 
-bash
-git clone https://github.com/your-username/chat-app.git
-cd chat-app
+- bash
+- git clone https://github.com/your-username/chat-app.git
+- cd chat-app
 
 ### 2. Setup frontend
 bash
