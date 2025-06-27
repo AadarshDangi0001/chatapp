@@ -32,35 +32,27 @@ A sleek and responsive real-time chat application with **Group Chat**, **Direct 
 - cd chat-app
 
 ### 2. Setup frontend
-bash
-Copy
-Edit
-cd frontend
-npm install
-npm run dev
+- cd frontend
+- npm install
+- npm run dev
 
 ### 3. Setup backend
-bash
-Copy
-Edit
-cd backend
-npm install
-npm run dev
-Make sure MongoDB is running locally or provide a connection string in .env.
+- cd backend
+- npm install
+- npm run dev
+- Make sure MongoDB is running locally or provide a connection string in .env.
 
 ## 🔐 .env Example (Backend)
-ini
-Copy
-Edit
-PORT=5050
-MONGO_URI=mongodb://localhost:27017/chat-app
-JWT_SECRET=your_jwt_secret
-📦 API Endpoints (Sample)
-Endpoint	Method	Description
-/api/auth/login	POST	Login user
-/api/auth/register	POST	Register new user
-/api/messages/:id	GET	Fetch DM messages
-/api/messages/group	GET	Fetch group chat messages
+- PORT=5050
+- MONGO_URI=mongodb://localhost:27017/chat-app
+- JWT_SECRET=your_jwt_secret
+
+## 📦 API Endpoints (Sample)
+- Endpoint	Method	Description
+- /api/auth/login	POST	Login user
+- /api/auth/register	POST	Register new user
+- /api/messages/:id	GET	Fetch DM messages
+- /api/messages/group	GET	Fetch group chat messages
 
 ## 🧪 Future Improvements
 ✅ Typing indicators
@@ -75,4 +67,4 @@ Endpoint	Method	Description
 
 
 ## 🙌 Author
-Made with ❤️ by Aadarsh Dangi
+- Made with ❤️ by Aadarsh Dangi
