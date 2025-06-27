@@ -1,9 +1,10 @@
+// UserList.jsx
 import { useEffect, useState } from 'react';
 import { chatAPI } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { Users } from 'lucide-react';
 
-const UserList = ({ onSelectUser, onSelectGroup, selectedUser, isGroupSelected, lastActivityMap }) => {
+const UserList = ({ onSelectUser, onSelectGroup, selectedUser, isGroupSelected, lastActivityMap, onClose }) => {
   const { user } = useAuth();
   const [users, setUsers] = useState([]);
 
@@ -31,7 +32,10 @@ const UserList = ({ onSelectUser, onSelectGroup, selectedUser, isGroupSelected, 
   });
 
   return (
-    <div className="w-[300px] bg-gray-950 border-r border-gray-800 text-white flex flex-col">
+    <div className="w-full md:w-[300px] bg-gray-950 border-r border-gray-800 text-white flex flex-col md:static fixed z-50 top-0 left-0 h-full md:h-auto md:block" id="userlist">
+      <div className="md:hidden p-4 border-b border-gray-800 text-right">
+        <button onClick={onClose} className="text-white text-sm">Close</button>
+      </div>
       <div className="flex-1 overflow-y-auto scrollbar-hide">
         <div
           onClick={() => onSelectGroup()}
@@ -51,7 +55,10 @@ const UserList = ({ onSelectUser, onSelectGroup, selectedUser, isGroupSelected, 
         {sortedUsers.map((u) => (
           <div
             key={u._id}
-            onClick={() => onSelectUser(u)}
+            onClick={() => {
+              onSelectUser(u);
+              onClose?.();
+            }}
             className={`flex items-center px-4 py-3 cursor-pointer hover:bg-gray-800 transition ${
               selectedUser?._id === u._id && !isGroupSelected ? 'bg-gray-800' : ''
             }`}

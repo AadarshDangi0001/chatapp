@@ -7,14 +7,16 @@ import Navbar from './components/Layout/Navbar';
 
 const AuthWrapper = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // <-- Add this
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
     return (
       <div className="h-screen bg-black">
-        <Navbar />
+        <Navbar onMenuClick={() => setIsSidebarOpen(true)} />
+
         <div className="h-[calc(100vh-80px)]">
-          <ChatArea />
+          <ChatArea isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
         </div>
       </div>
     );
@@ -30,6 +32,7 @@ const AuthWrapper = () => {
     </div>
   );
 };
+
 
 const App = () => {
   return (

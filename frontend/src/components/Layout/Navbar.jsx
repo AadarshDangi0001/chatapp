@@ -1,7 +1,8 @@
-import { useAuth } from '../../context/AuthContext';
-import { LogOut, MessageCircle } from 'lucide-react';
+import { Menu, LogOut, MessageCircle } from 'lucide-react';
 
-const Navbar = () => {
+import { useAuth } from '../../context/AuthContext';
+
+const Navbar = ({ onMenuClick }) => {
   const { user, logout } = useAuth();
 
   return (
@@ -12,7 +13,10 @@ const Navbar = () => {
           <h1 className="text-xl font-bold text-white">ChatApp</h1>
         </div>
         <div className="flex items-center space-x-4">
-          <span className="text-gray-300">Welcome, {user?.username}</span>
+          <button onClick={onMenuClick} className="block md:hidden text-white">
+            <Menu />
+          </button>
+          <span className="hidden md:block text-gray-300">Welcome, {user?.username}</span>
           <button
             onClick={logout}
             className="flex items-center space-x-2 px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
@@ -26,4 +30,6 @@ const Navbar = () => {
   );
 };
 
+
 export default Navbar;
+

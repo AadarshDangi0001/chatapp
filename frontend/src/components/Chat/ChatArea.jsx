@@ -8,11 +8,13 @@ import MessageInput from './MessageInput';
 import { User, Users } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
-const ChatArea = () => {
+const ChatArea = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [isGroupSelected, setIsGroupSelected] = useState(true);
   const [lastMessageMap, setLastMessageMap] = useState({});
+  
+
 
   const { user } = useAuth();
   const currentUserId = user?.id || user?._id;
@@ -105,13 +107,29 @@ const ChatArea = () => {
 
   return (
     <div className="flex h-screen bg-black overflow-hidden">
-      <UserList
-        onSelectUser={handleSelectUser}
-        onSelectGroup={handleSelectGroup}
-        selectedUser={selectedUser}
-        isGroupSelected={isGroupSelected}
-        lastActivityMap={lastMessageMap}
-      />
+    <div className="hidden md:block">
+  <UserList
+    onSelectUser={handleSelectUser}
+    onSelectGroup={handleSelectGroup}
+    selectedUser={selectedUser}
+    isGroupSelected={isGroupSelected}
+    lastActivityMap={lastMessageMap}
+  />
+</div>
+
+{isSidebarOpen && (
+  <div className="md:hidden fixed inset-0 z-50 bg-black bg-opacity-80">
+    <UserList
+      onSelectUser={handleSelectUser}
+      onSelectGroup={handleSelectGroup}
+      selectedUser={selectedUser}
+      isGroupSelected={isGroupSelected}
+      lastActivityMap={lastMessageMap}
+      onClose={() => setIsSidebarOpen(false)}
+    />
+  </div>
+)}
+
       <div className="flex-1 flex flex-col overflow-hidden">
         <div className="p-4 bg-gray-900 border-b border-gray-800 flex items-center space-x-3">
           <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center">
