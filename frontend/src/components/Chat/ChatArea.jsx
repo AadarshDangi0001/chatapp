@@ -1,24 +1,22 @@
 // ChatArea.jsx
-import { useState, useEffect } from 'react';
-import { chatAPI } from '../../services/api';
-import { useSocket } from '../../hooks/useSocket';
-import UserList from './UserList';
-import MessageList from './MessageList';
-import MessageInput from './MessageInput';
-import { User, Users } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import { useState, useEffect } from "react";
+import { chatAPI } from "../../services/api";
+import { useSocket } from "../../hooks/useSocket";
+import UserList from "./UserList";
+import MessageList from "./MessageList";
+import MessageInput from "./MessageInput";
+import { User, Users } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 
 const ChatArea = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [isGroupSelected, setIsGroupSelected] = useState(true);
   const [lastMessageMap, setLastMessageMap] = useState({});
-  
-
 
   const { user } = useAuth();
   const currentUserId = user?.id || user?._id;
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const socket = useSocket(token);
 
   const updateLastMessageTime = (userId) => {
@@ -38,13 +36,16 @@ const ChatArea = ({ isSidebarOpen, setIsSidebarOpen }) => {
       const otherUserId = senderId === currentUserId ? receiverId : senderId;
       updateLastMessageTime(otherUserId);
 
-      if (!isGroupSelected && (senderId === selectedUser?._id || receiverId === selectedUser?._id)) {
+      if (
+        !isGroupSelected &&
+        (senderId === selectedUser?._id || receiverId === selectedUser?._id)
+      ) {
         setMessages((prev) => [...prev, message]);
       }
     };
 
     const handleGroupMessage = (message) => {
-      updateLastMessageTime('group');
+      updateLastMessageTime("group");
       if (isGroupSelected) {
         setMessages((prev) => [...prev, message]);
       }
@@ -55,18 +56,18 @@ const ChatArea = ({ isSidebarOpen, setIsSidebarOpen }) => {
       if (!isGroupSelected && selectedUser) {
         updateLastMessageTime(selectedUser._id);
       } else if (isGroupSelected) {
-        updateLastMessageTime('group');
+        updateLastMessageTime("group");
       }
     };
 
-    socket.on('receive_message', handlePrivateMessage);
-    socket.on('receive_group_message', handleGroupMessage);
-    socket.on('message_sent', handleMessageSent);
+    socket.on("receive_message", handlePrivateMessage);
+    socket.on("receive_group_message", handleGroupMessage);
+    socket.on("message_sent", handleMessageSent);
 
     return () => {
-      socket.off('receive_message', handlePrivateMessage);
-      socket.off('receive_group_message', handleGroupMessage);
-      socket.off('message_sent', handleMessageSent);
+      socket.off("receive_message", handlePrivateMessage);
+      socket.off("receive_group_message", handleGroupMessage);
+      socket.off("message_sent", handleMessageSent);
     };
   }, [socket, selectedUser, isGroupSelected]);
 
@@ -77,7 +78,7 @@ const ChatArea = ({ isSidebarOpen, setIsSidebarOpen }) => {
       const res = await chatAPI.getMessages(user._id);
       setMessages(res.data);
     } catch (error) {
-      console.error('Failed to fetch messages:', error);
+      console.error("Failed to fetch messages:", error);
     }
   };
 
@@ -88,7 +89,7 @@ const ChatArea = ({ isSidebarOpen, setIsSidebarOpen }) => {
       const res = await chatAPI.getGroupMessages();
       setMessages(res.data);
     } catch (error) {
-      console.error('Failed to fetch group messages:', error);
+      console.error("Failed to fetch group messages:", error);
     }
   };
 
@@ -96,9 +97,9 @@ const ChatArea = ({ isSidebarOpen, setIsSidebarOpen }) => {
     if (!socket) return;
 
     if (isGroupSelected) {
-      socket.emit('send_group_message', { content });
+      socket.emit("send_group_message", { content });
     } else if (selectedUser) {
-      socket.emit('send_message', {
+      socket.emit("send_message", {
         receiverId: selectedUser._id,
         content,
       });
@@ -107,28 +108,28 @@ const ChatArea = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
   return (
     <div className="flex h-screen bg-black overflow-hidden">
-    <div className="hidden md:block">
-  <UserList
-    onSelectUser={handleSelectUser}
-    onSelectGroup={handleSelectGroup}
-    selectedUser={selectedUser}
-    isGroupSelected={isGroupSelected}
-    lastActivityMap={lastMessageMap}
-  />
-</div>
+      {/* <div className="hidden md:block">
+        <UserList
+          onSelectUser={handleSelectUser}
+          onSelectGroup={handleSelectGroup}
+          selectedUser={selectedUser}
+          isGroupSelected={isGroupSelected}
+          lastActivityMap={lastMessageMap}
+        />
+      </div>
 
-{isSidebarOpen && (
-  <div className="md:hidden fixed inset-0 z-50 bg-black bg-opacity-80">
-    <UserList
-      onSelectUser={handleSelectUser}
-      onSelectGroup={handleSelectGroup}
-      selectedUser={selectedUser}
-      isGroupSelected={isGroupSelected}
-      lastActivityMap={lastMessageMap}
-      onClose={() => setIsSidebarOpen(false)}
-    />
-  </div>
-)}
+      {isSidebarOpen && (
+        <div className="md:hidden fixed inset-0 z-50 bg-black bg-opacity-80">
+          <UserList
+            onSelectUser={handleSelectUser}
+            onSelectGroup={handleSelectGroup}
+            selectedUser={selectedUser}
+            isGroupSelected={isGroupSelected}
+            lastActivityMap={lastMessageMap}
+            onClose={() => setIsSidebarOpen(false)}
+          />
+        </div>
+      )} */}
 
       <div className="flex-1 flex flex-col overflow-hidden">
         <div className="p-4 bg-gray-900 border-b border-gray-800 flex items-center space-x-3">
@@ -141,14 +142,14 @@ const ChatArea = ({ isSidebarOpen, setIsSidebarOpen }) => {
           </div>
           <div>
             <h3 className="text-white font-medium">
-              {isGroupSelected ? 'General Group' : selectedUser?.username}
+              {isGroupSelected ? "General Group" : selectedUser?.username}
             </h3>
             <p className="text-gray-400 text-sm">
               {isGroupSelected
-                ? 'Everyone is here'
+                ? "Everyone is here"
                 : selectedUser?.isOnline
-                ? 'Online'
-                : 'Offline'}
+                ? "Online"
+                : "Offline"}
             </p>
           </div>
         </div>
@@ -166,4 +167,3 @@ const ChatArea = ({ isSidebarOpen, setIsSidebarOpen }) => {
 };
 
 export default ChatArea;
-
