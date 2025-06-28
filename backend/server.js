@@ -13,11 +13,22 @@ connectDB();
 
 const app = express();
 const server = createServer(app);
+
+// ✅ Get frontend URL from env
+const FRONTEND_URL = process.env.FRONTEND_URL;
+
 const io = new Server(server, {
-  cors: { origin: "http://localhost:5173", credentials: true }
+  cors: {
+    origin: FRONTEND_URL,
+    credentials: true
+  }
 });
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({
+  origin: FRONTEND_URL,
+  credentials: true
+}));
+
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
