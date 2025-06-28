@@ -108,7 +108,7 @@ const ChatArea = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
   return (
     <div className="flex h-full bg-black overflow-hidden">
-      {/* <div className="hidden md:block">
+      <div className="hidden md:block">
         <UserList
           onSelectUser={handleSelectUser}
           onSelectGroup={handleSelectGroup}
@@ -129,7 +129,7 @@ const ChatArea = ({ isSidebarOpen, setIsSidebarOpen }) => {
             onClose={() => setIsSidebarOpen(false)}
           />
         </div>
-      )} */}
+      )}
 
       <div className="flex-1 flex flex-col overflow-hidden">
         <div className="p-4 bg-gray-900 border-b border-gray-800 flex items-center space-x-3">
