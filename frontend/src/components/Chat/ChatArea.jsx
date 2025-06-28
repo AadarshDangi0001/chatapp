@@ -107,7 +107,7 @@ const ChatArea = ({ isSidebarOpen, setIsSidebarOpen }) => {
   };
 
   return (
-    <div className="flex h-screen bg-black overflow-hidden">
+    <div className="flex h-full bg-black overflow-hidden">
       {/* <div className="hidden md:block">
         <UserList
           onSelectUser={handleSelectUser}
